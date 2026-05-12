@@ -5,7 +5,7 @@ import { type ImageProcessError, processImage } from "./image"
 
 const A4_WIDTH_PT = 595.28
 const A4_HEIGHT_PT = 841.89
-const MARGIN_PT = 40
+const MARGIN_PT = 20
 
 export class PdfError extends Data.TaggedError("PdfError")<{
 	message: string
@@ -98,7 +98,10 @@ export function downloadPdf(result: PdfResult): Effect.Effect<void, PdfError> {
 			const a = document.createElement("a")
 			a.href = url
 			a.download = result.filename
+			a.style.display = "none"
+			document.body.appendChild(a)
 			a.click()
+			document.body.removeChild(a)
 			URL.revokeObjectURL(url)
 		},
 		catch: (e) => new PdfError({ message: String(e) }),
