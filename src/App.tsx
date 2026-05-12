@@ -16,7 +16,7 @@ function buildPreviewFilename(prefix: string): string {
 	const dd = String(now.getDate()).padStart(2, "0")
 	const hh = String(now.getHours()).padStart(2, "0")
 	const min = String(now.getMinutes()).padStart(2, "0")
-	return prefix.trim() ? `${prefix.trim()}_${mm}/${dd}/${hh}:${min}.pdf` : `${mm}/${dd}/${hh}:${min}.pdf`
+	return prefix.trim() ? `${prefix.trim()}_${mm}${dd}${hh}${min}.pdf` : `${mm}${dd}${hh}${min}.pdf`
 }
 
 export default function App() {
@@ -99,10 +99,11 @@ export default function App() {
 				Effect.flatMap((result) => downloadPdf(result)),
 			),
 		)
+			.then(() => {
+				setProgress({ step: "完了", percent: 100, done: true })
+			})
 			.catch((e) => {
 				setError(`エラーが発生しました: ${String(e)}`)
-			})
-			.finally(() => {
 				setProgress(null)
 			})
 	}
@@ -169,7 +170,7 @@ export default function App() {
 			/>
 
 			<ImageLightbox image={lightboxImage} onClose={() => setLightboxId(null)} />
-			<ProgressModal progress={progress} />
+			<ProgressModal progress={progress} onClose={() => setProgress(null)} />
 		</div>
 	)
 }

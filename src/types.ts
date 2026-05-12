@@ -10,4 +10,5 @@ export type ImageFile = {
 export type Progress = {
 	step: string
 	percent: number
+	done?: boolean
 } | null

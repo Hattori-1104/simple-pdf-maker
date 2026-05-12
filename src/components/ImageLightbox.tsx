@@ -12,18 +12,13 @@ type Props = {
 export function ImageLightbox({ image, onClose }: Props) {
 	return (
 		<Dialog open={image !== null} onOpenChange={(open) => !open && onClose()}>
-			<DialogContent
-				className="flex items-center justify-center bg-black/90 p-4 max-w-none w-screen h-screen border-none rounded-none"
-				showCloseButton={false}
-				onClick={onClose}
-			>
+			<DialogContent className="max-w-sm p-4">
 				{image && (
 					<img
 						src={image.previewUrl}
 						alt="拡大表示"
-						className="max-w-full max-h-full object-contain"
+						className="w-full h-full object-contain rounded"
 						style={{ transform: `rotate(${image.rotation}deg)` }}
-						onClick={(e) => e.stopPropagation()}
 					/>
 				)}
 			</DialogContent>
